@@ -263,3 +263,98 @@ The first complete vertical slice SHOULD be:
 MarketHypothesis -> ProblemHypothesis -> Organization discovery -> Observation/Evidence -> Lead -> Qualification -> Opportunity -> Outcome -> Learning.
 
 It MUST exercise ROS, SDE, Limen, F#, states, transitions, evidence, obligations, policies, capabilities, audit, and agent boundaries before broad automation is added.
+
+
+## 26. Commercial signal and memory requirements
+
+### 26.1 Signals
+
+The system MUST model a Signal separately from Observation and Evidence. A signal is a candidate indication that commercial conditions may have changed and requires interpretation before it can affect strategy.
+
+Signals MAY include executive changes, acquisitions, hiring patterns, AI initiatives, technology migrations, production incidents, public complaints, regulatory changes, procurement activity, conference appearances, funding, product launches, organizational restructuring, and repeated customer-language patterns.
+
+A signal SHOULD retain source observations, time window, affected organizations/markets/problems, confidence, interpretation status, expiry/staleness rules, and resulting obligations.
+
+A signal MUST NOT automatically become a lead, opportunity, or market conclusion.
+
+### 26.2 Commercial memory
+
+The system MUST retain prior experiments, campaigns, messages, offers, hypotheses, outcomes, failures, negative evidence, and contextual conditions so agents can determine whether substantially equivalent work has already been attempted.
+
+Before proposing a repeated experiment, an agent SHOULD identify the prior attempt and explain what material condition has changed.
+
+### 26.3 Evidence freshness
+
+Evidence SHOULD support effective-current projections. The system MUST be able to distinguish historically true evidence from evidence believed to remain currently applicable.
+
+Stale evidence MUST NOT silently satisfy current transition requirements.
+
+### 26.4 Negative knowledge
+
+The system MUST represent relevant searches or investigations that found no expected evidence when that absence is meaningful. Negative knowledge SHOULD retain scope, method, time, source set, expected finding, and expiry conditions.
+
+Absence of evidence MUST NOT automatically be interpreted as evidence of absence.
+
+### 26.5 Unknown external effects
+
+When an external operation may have occurred but confirmation is unavailable, the system MUST preserve an Unknown effect state and create a reconciliation obligation. It MUST NOT blindly retry a potentially non-idempotent operation.
+
+## 27. GitHub-backed persistence requirements
+
+GitHub is the initial durable store, but domain semantics MUST remain independent of Git.
+
+The persistence design MUST address:
+- concurrent edits;
+- optimistic version checks;
+- merge conflicts;
+- atomicity boundaries;
+- immutable history;
+- schema/version migration;
+- large-history growth;
+- repository API limits;
+- partial writes;
+- retries;
+- corruption detection;
+- recovery;
+- indexing/projections for responsive UI;
+- separation of secrets from commercial state.
+
+Git commit success MUST NOT be confused with successful external commercial effects.
+
+## 28. Mobile requirements
+
+The Limen application MUST be usable from a phone for core field workflows.
+
+Mobile workflows SHOULD include:
+- reviewing/approving outreach;
+- recording conversation notes;
+- capturing observations/evidence;
+- creating follow-up obligations;
+- checking opportunity blockers;
+- reviewing campaign state;
+- classifying replies;
+- capturing conference/event contacts and context.
+
+The design MUST follow current Visual Engineering accessibility and responsive-layout requirements.
+
+## 29. Conference and field mode
+
+The system SHOULD support an event/conference mode optimized for rapid capture.
+
+It SHOULD permit pre-event target research, introductions/meeting requests, on-site conversation/evidence capture, contact context, accessibility notes relevant to interaction logistics, follow-up obligations, post-event personalized outreach, conversion tracking, and event-level learning.
+
+## 30. Claim governance
+
+Externally published factual and outcome claims MUST retain supporting evidence and an approval state.
+
+The system SHOULD identify unsupported, stale, contradictory, or over-generalized claims before publication.
+
+Agents MUST NOT convert internal hypotheses, estimates, or research conclusions into public facts without evidence and policy authorization.
+
+## 31. Accessibility
+
+Accessibility is a system requirement rather than a late UI audit.
+
+The application MUST support keyboard operation, semantic structure, visible focus, appropriate target sizing, zoom/reflow, reduced motion, non-color-only communication, accessible validation/errors, assistive-technology semantics, and contrast/readability requirements defined by Visual Engineering.
+
+Accessibility-critical workflows MUST be included in acceptance testing.
