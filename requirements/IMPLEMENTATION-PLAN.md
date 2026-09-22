@@ -94,3 +94,28 @@ At least one workstream SHOULD continuously challenge:
 - whether a proposed abstraction is actually provider-neutral.
 
 The purpose is to find where the architecture fails before production usage does.
+
+
+## Deferred bootstrap requirement
+
+### REQ-BOOTSTRAP-001: Repository capability self-bootstrap
+
+Status: Deferred.
+
+The repository MUST eventually provide a supported, repeatable mechanism that can install or upgrade ROS, SDE/Ordo, Visual Engineering, and Communication Engineering from a clean checkout and commit or otherwise materialize their managed repository artifacts safely.
+
+Acceptance criteria:
+- installs the repository's pinned/current approved capability versions;
+- verifies each capability independently;
+- preserves generated GitHub workflow files;
+- does not require an Action to grant itself unsupported `GITHUB_TOKEN` permissions;
+- handles GitHub's restriction on workflows creating or modifying workflow files;
+- is idempotent;
+- fails at the exact capability/step responsible for an error;
+- does not hide failures with permissive shell handling;
+- documents the bootstrap path for a new repository and an upgrade path for an existing repository;
+- can be exercised by an automated validation test without mutating production state unexpectedly.
+
+Current evidence: ROS 3.1.4 installation and verification completed successfully in the diagnostic Action, but committing the generated ROS workflow from that Action was rejected by GitHub. A subsequent attempt to add a `workflows: write` permission demonstrated that this is not a valid `GITHUB_TOKEN` workflow permission. This requirement is intentionally deferred so capability installation does not block product development.
+
+Until REQ-BOOTSTRAP-001 is implemented, repository capability upgrades MAY be performed through an authorized development environment or repository tooling that has the necessary permission to create/update workflow files.
