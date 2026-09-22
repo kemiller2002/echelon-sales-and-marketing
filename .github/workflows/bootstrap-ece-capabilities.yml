@@ -1,0 +1,59 @@
+name: Bootstrap Echelon Engineering Capabilities
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/bootstrap-ece-capabilities.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install or upgrade ROS
+        run: |
+          npx --yes --package=@echelon-foundry/repository-operating-system@3.1.4 ros init
+          npx --yes --package=@echelon-foundry/repository-operating-system@3.1.4 ros upgrade || true
+          npx --yes --package=@echelon-foundry/repository-operating-system@3.1.4 ros verify
+
+      - name: Install or upgrade SDE
+        run: |
+          npx --yes @echelon-foundry/sde@1.3.0 init
+          npx --yes @echelon-foundry/sde@1.3.0 upgrade || true
+          npx --yes @echelon-foundry/sde@1.3.0 verify
+
+      - name: Install or upgrade Visual Engineering
+        run: |
+          npx --yes @echelon-foundry/visual-engineering@1.0.0 init
+          npx --yes @echelon-foundry/visual-engineering@1.0.0 upgrade || true
+          npx --yes @echelon-foundry/visual-engineering@1.0.0 verify --strict
+
+      - name: Install or upgrade Communication Engineering
+        run: |
+          npx --yes @echelon-foundry/communication-engineering@1.0.0 init
+          npx --yes @echelon-foundry/communication-engineering@1.0.0 upgrade || true
+          npx --yes @echelon-foundry/communication-engineering@1.0.0 verify --strict
+
+      - name: Commit installed capability state
+        run: |
+          git config user.name "echelon-capability-bootstrap"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No capability changes required."
+          else
+            git commit -m "Upgrade ROS, SDE, Visual Engineering, and Communication Engineering"
+            git push
+          fi
