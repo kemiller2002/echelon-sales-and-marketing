@@ -47,3 +47,13 @@ The requirements have been expanded into explicit state-directed design and scen
 - `requirements/DOMAIN-VERIFICATION.md` - executable test expectations and architecture checks
 
 The scenario catalog is intended to continue growing. A scenario that exposes an unsafe, inefficient, ambiguous, or unrepresentable condition is treated as requirements evidence.
+
+
+## Portfolio commercialization pressure test
+
+The system now includes a dedicated commercialization test for Echelon Foundry's current portfolio:
+
+- `requirements/PORTFOLIO-GTM-SCENARIOS.md` - problem-led sales and marketing scenarios for Clarity, EDF, HelixNote, Echelon Foundry, portfolio combinations, distribution experiments, and the proof ladder.
+- `requirements/PORTFOLIO-COMMERCIAL-REQUIREMENTS.md` - requirements discovered by trying to sell the portfolio, including ProblemPattern, CommercialMotion, Claim, ProofAsset, buying triggers, diagnostic qualification, objections, CTA experiments, referrals, workshops/diagnostics as products, portfolio cross-sell controls, category-comprehension testing, outcome follow-up, reference permissions, founder-time/productization analysis, and commercial failure taxonomy.
+
+A core rule is that external messaging starts with the buyer's recognizable problem rather than requiring the buyer to understand Echelon's internal framework/product names.
