@@ -3,57 +3,140 @@ name: Bootstrap Echelon Engineering Capabilities
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
-      - '.github/workflows/bootstrap-ece-capabilities.yml'
+      - ".github/workflows/bootstrap-ece-capabilities.yml"
 
 permissions:
   contents: write
 
 jobs:
-  bootstrap:
+  environment:
+    name: Environment diagnostic
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Runtime versions
+        run: |
+          set -euxo pipefail
+          node --version
+          npm --version
+          npx --version
+          git --version
+
+  ros:
+    name: ROS 3.1.4
+    needs: environment
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-
+          node-version: "20"
+      - name: Resolve ROS package
+        run: npm view @echelon-foundry/repository-operating-system@3.1.4 version
       - name: Install or upgrade ROS
         run: |
+          set -euxo pipefail
           npx --yes --package=@echelon-foundry/repository-operating-system@3.1.4 ros init
-          npx --yes --package=@echelon-foundry/repository-operating-system@3.1.4 ros upgrade || true
+          npx --yes --package=@echelon-foundry/repository-operating-system@3.1.4 ros upgrade
           npx --yes --package=@echelon-foundry/repository-operating-system@3.1.4 ros verify
-
-      - name: Install or upgrade SDE
-        run: |
-          npx --yes @echelon-foundry/sde@1.3.0 init
-          npx --yes @echelon-foundry/sde@1.3.0 upgrade || true
-          npx --yes @echelon-foundry/sde@1.3.0 verify
-
-      - name: Install or upgrade Visual Engineering
-        run: |
-          npx --yes @echelon-foundry/visual-engineering@1.0.0 init
-          npx --yes @echelon-foundry/visual-engineering@1.0.0 upgrade || true
-          npx --yes @echelon-foundry/visual-engineering@1.0.0 verify --strict
-
-      - name: Install or upgrade Communication Engineering
-        run: |
-          npx --yes @echelon-foundry/communication-engineering@1.0.0 init
-          npx --yes @echelon-foundry/communication-engineering@1.0.0 upgrade || true
-          npx --yes @echelon-foundry/communication-engineering@1.0.0 verify --strict
-
-      - name: Commit installed capability state
+      - name: Commit ROS state
         run: |
           git config user.name "echelon-capability-bootstrap"
           git config user.email "actions@users.noreply.github.com"
           git add -A
-          if git diff --cached --quiet; then
-            echo "No capability changes required."
-          else
-            git commit -m "Upgrade ROS, SDE, Visual Engineering, and Communication Engineering"
-            git push
-          fi
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Install or upgrade ROS 3.1.4"
+          git pull --rebase origin main
+          git push
+
+  sde:
+    name: SDE 1.3.0
+    needs: ros
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Resolve SDE package
+        run: npm view @echelon-foundry/sde@1.3.0 version
+      - name: Install or upgrade SDE
+        run: |
+          set -euxo pipefail
+          npx --yes @echelon-foundry/sde@1.3.0 init
+          npx --yes @echelon-foundry/sde@1.3.0 upgrade
+          npx --yes @echelon-foundry/sde@1.3.0 verify
+      - name: Commit SDE state
+        run: |
+          git config user.name "echelon-capability-bootstrap"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Install or upgrade SDE 1.3.0"
+          git pull --rebase origin main
+          git push
+
+  visual-engineering:
+    name: Visual Engineering 1.0.0
+    needs: sde
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Resolve Visual Engineering package
+        run: npm view @echelon-foundry/visual-engineering@1.0.0 version
+      - name: Install or upgrade Visual Engineering
+        run: |
+          set -euxo pipefail
+          npx --yes @echelon-foundry/visual-engineering@1.0.0 init
+          npx --yes @echelon-foundry/visual-engineering@1.0.0 upgrade
+          npx --yes @echelon-foundry/visual-engineering@1.0.0 verify --strict
+      - name: Commit Visual Engineering state
+        run: |
+          git config user.name "echelon-capability-bootstrap"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Install or upgrade Visual Engineering 1.0.0"
+          git pull --rebase origin main
+          git push
+
+  communication-engineering:
+    name: Communication Engineering 1.0.0
+    needs: visual-engineering
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Resolve Communication Engineering package
+        run: npm view @echelon-foundry/communication-engineering@1.0.0 version
+      - name: Install or upgrade Communication Engineering
+        run: |
+          set -euxo pipefail
+          npx --yes @echelon-foundry/communication-engineering@1.0.0 init
+          npx --yes @echelon-foundry/communication-engineering@1.0.0 upgrade
+          npx --yes @echelon-foundry/communication-engineering@1.0.0 verify --strict
+      - name: Commit Communication Engineering state
+        run: |
+          git config user.name "echelon-capability-bootstrap"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Install or upgrade Communication Engineering 1.0.0"
+          git pull --rebase origin main
+          git push
