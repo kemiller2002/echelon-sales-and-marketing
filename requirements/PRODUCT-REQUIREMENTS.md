@@ -1,0 +1,265 @@
+# Product Requirements
+
+## 1. Governing requirements
+
+1. The system MUST follow ROS for requirements, work decomposition, evidence, execution tracking, traceability, agent activity, cost, completion criteria, handoffs, and release readiness.
+2. The system MUST follow SDE/Ordo. Important domain objects MUST expose explicit state, legal transitions, invariants, capabilities, obligations, evidence requirements, policy, version checks, history, and explicit external effects.
+3. Illegal states SHOULD be unrepresentable where practical.
+4. Agents MUST request legal transitions rather than arbitrarily mutate domain state.
+5. The browser application MUST use Limen. HTML/CSS remain native rendering surfaces, application state and logic reside in the F#/WASM boundary, and JavaScript is minimized to necessary browser interop/event dispatch.
+6. Domain and application logic SHOULD be F# unless a documented technical constraint justifies an exception.
+7. The system MUST apply Visual Engineering to UI decisions and Communication Engineering to user-facing and externally published communication.
+8. Evolution SHOULD be incremental and compatibility-preserving. Breaking changes require an explicit migration.
+
+## 2. Purpose
+
+The system MUST help Echelon:
+- discover markets and problems;
+- test market, problem, ICP, positioning, message, channel, and offer hypotheses;
+- identify and qualify organizations and contacts;
+- build and preserve relationships;
+- create and govern marketing assets;
+- execute campaigns and outreach;
+- support sales conversations;
+- develop opportunities;
+- understand wins and losses;
+- measure cost and commercial effectiveness;
+- discover adjacent opportunities and potential pivots;
+- learn from positive, negative, contradictory, and absent evidence.
+
+The system MUST distinguish activity, output, engagement, evidence, opportunity, revenue, and learning.
+
+## 3. Core domain
+
+Initial first-class entities:
+MarketHypothesis, ICP, ProblemHypothesis, Organization, Contact, Relationship, Lead, Opportunity, Offering, Campaign, CampaignTarget, Experiment, Message, Asset, Interaction, Conversation, Observation, Evidence, Source, CustomerLanguage, Competitor, Alternative, Outcome, Decision, Obligation, AgentActivity, Metric, ChannelPolicy, ExternalEffect.
+
+This is a discovery model and MAY evolve through evidence.
+
+## 4. Market hypotheses
+
+A MarketHypothesis MUST support market/segment, organization characteristics, geography, buyer roles, users, problems, pressures, technology environment, ability to pay, urgency, alternatives, buying triggers, assumptions, supporting evidence, contradictory evidence, confidence, and state.
+
+Suggested lifecycle:
+Proposed -> Researching -> Testing -> Supported / Weak / Rejected -> Revisit.
+
+The system MUST permit competing hypotheses and MUST NOT assume the current market remains correct.
+
+## 5. Problem hypotheses
+
+Problems MUST be modeled independently from solutions.
+
+A ProblemHypothesis SHOULD capture affected customer/role, current process, impact, frequency, severity, economic/operational consequence, workaround, alternatives, evidence, missing evidence, assumptions, and confidence.
+
+Research MUST seek disconfirming evidence, not merely confirmation.
+
+## 6. ICP
+
+An ICP is a versioned hypothesis, not static segmentation.
+
+It MAY include industry, revenue, employees, technical complexity, maturity, AI adoption, modernization activity, regulation, decision structure, pain, budget, triggers, exclusions, and buyer characteristics.
+
+Won and lost opportunities SHOULD be compared against ICP assumptions.
+
+## 7. Evidence
+
+Evidence is first-class.
+
+Every meaningful claim SHOULD be able to retain source, date, type, subject, claim, reliability, confidence, original material/reference, interpretation, and contradictory evidence.
+
+The system MUST distinguish:
+- observation;
+- external claim;
+- evidence;
+- inference;
+- hypothesis;
+- conclusion;
+- agent interpretation.
+
+The system MUST answer "Why do we believe this?"
+
+Negative results MUST be retained.
+
+## 8. Organizations, contacts, and relationships
+
+Organizations MUST be first-class and MAY include industry, size, locations, leadership, business units, technology, initiatives, acquisitions, hiring, public statements, AI/modernization activity, known problems, vendors, relationships, and interaction history.
+
+Contacts MUST remain independent from organizations and MAY include role, responsibilities, relationship, relationship strength, interests, priorities, problems, influence, buying role, preferred channel, and communication history.
+
+Relationships MUST preserve history rather than reducing a person to a current CRM stage.
+
+## 9. Lead discovery and qualification
+
+Lead discovery MAY use market research, announcements, news, hiring, conferences, referrals, inbound content, website engagement, public technical activity, business changes, and other legitimate public signals.
+
+A lead MUST retain source, time, relevance, evidence, associated hypothesis, and confidence.
+
+"An agent found a company" MUST NOT equal "qualified."
+
+Qualification SHOULD consider problem fit, capability fit, urgency, economic value, authority, willingness, timing, access, strategic relevance, competitive position, and relationship. Uncertainty MUST be representable. Opaque single-number AI scoring is insufficient.
+
+## 10. Opportunities and obligations
+
+Suggested opportunity states:
+Discovered, Researching, Engaging, ProblemConfirmed, Qualified, Exploring, Proposal, Negotiation, Won, Lost, Dormant, Rejected.
+
+Transitions MUST be evidence based.
+
+Opportunities SHOULD expose unresolved obligations such as:
+- identify decision maker;
+- identify economic buyer;
+- confirm problem;
+- establish next interaction;
+- test value hypothesis;
+- resolve risk;
+- understand procurement.
+
+The UI SHOULD answer what unresolved work prevents advancement.
+
+## 11. Campaigns and experiments
+
+A Campaign MUST include objective, target market, ICP, accounts/roles, problem hypothesis, message hypothesis, offer, channels, assets, duration, cost, expected outcome, success/failure criteria, stopping criteria, evidence, and results.
+
+Campaign states MAY include Draft, ReadyForReview, Approved, Active, Paused, Completed, Evaluated.
+
+CampaignTarget MUST be an explicit entity rather than a recipient list.
+
+Experiments MUST remain distinct from campaign execution and SHOULD include hypothesis, independent variable, expected signal, audience, measurement, duration/sample target, stopping rules, interpretation rules, result, and learning.
+
+## 12. Messaging and content
+
+The system MUST support message testing across market, role, problem, technical sophistication, maturity, trigger, offering, and channel.
+
+Content assets MAY include articles, posts, videos, diagrams, presentations, case studies, frameworks, demos, conference material, whitepapers, landing pages, emails, and sales collateral.
+
+Assets SHOULD link to ICP, role, problem, campaign, message, evidence, channel, and results.
+
+A canonical asset MAY have channel-specific variants. Variants MUST remain traceable to the source asset.
+
+AI-generated public content MUST be reviewable where policy requires.
+
+## 13. Distribution and outreach
+
+Channels MAY include website, email, LinkedIn, Reddit, X, Meta/Facebook, video, conferences, groups, direct outreach, and referrals.
+
+The system SHOULD support account/contact briefs, conversation starters, draft outreach, follow-up, meeting preparation, discovery questions, and recommended next moves.
+
+Personalization MUST be evidence-grounded. The system MUST NOT fabricate familiarity or unsupported claims.
+
+Initial first contact requires human approval.
+
+## 14. Conversations, response, and learning
+
+Sales conversations SHOULD capture questions, problems, evidence, objections, commitments, unknowns, stakeholders, decision process, and next steps.
+
+Responses MAY be classified as Interested, NotInterested, Referral, WrongPerson, FollowUpLater, Question, MeetingRequested, Unsubscribe, OutOfOffice, InvalidAddress, Unknown.
+
+Agents MAY suggest classification, but source material and confidence MUST be preserved.
+
+Conversations MAY update or contradict market, problem, ICP, message, and opportunity hypotheses.
+
+## 15. Win/loss
+
+The system SHOULD preserve why an organization considered acting, acted, did not act, won, lost, selected alternatives, objected to message/pricing/timing, or lacked trust/access/fit.
+
+Losses remain learning artifacts.
+
+## 16. Metrics and economics
+
+Leading measures MAY include researched target accounts, validated problems, relevant conversations, response rates, relationship growth, qualified opportunities, and experiment evidence.
+
+Lagging measures MAY include proposals, wins, revenue, margin, acquisition cost, sales cycle, and lifetime value.
+
+Activity MUST NOT substitute for outcomes.
+
+Costs SHOULD include human time, model/API spend, data, advertising, content, conferences, and software.
+
+The system SHOULD calculate cost per meaningful conversation, qualified opportunity, customer, campaign, and channel where evidence permits.
+
+Agent activity SHOULD retain agent, task, model, tokens/cost where available, duration, artifact, evidence, and downstream outcome.
+
+## 17. Decision support and Clarity
+
+Recommendations SHOULD expose evidence, assumptions, uncertainty, benefits, risks, alternatives, and unresolved questions.
+
+Clarity MAY be used for market selection, account prioritization, campaigns, opportunities, proposals, and experiments when useful. It SHOULD NOT be mechanically forced into every decision.
+
+## 18. Agents
+
+Initial/specialized roles MAY include:
+Researcher, Strategist, ExperimentDesigner, AccountAnalyst, ContentStrategist, ContentProducer, SalesAnalyst, LearningAgent, MarketListener, ProblemMiner, CustomerLanguageAnalyst, CompetitorMonitor, OpportunityScout, ContentOpportunityAgent, EngagementAgent.
+
+Each agent MUST have bounded purpose, allowed inputs/actions, forbidden actions, outputs, capabilities, transition permissions, and escalation conditions.
+
+Agent roles are independent of model/provider selection.
+
+## 19. Knowledge
+
+The knowledge system SHOULD structure markets, customer language, problems, objections, competitors, alternatives, successful/failed messages, campaigns, experiments, account patterns, win/loss information, conversations, and evidence.
+
+It MUST NOT treat an unstructured document/vector store as canonical truth.
+
+## 20. Exploration and pivot discovery
+
+The system MUST support exploration as well as exploitation.
+
+It SHOULD ask whether Echelon is pursuing the correct market at all and support investigation of emerging problems, underserved markets, technology shifts, declining demand, adjacent opportunities, unexpected responses, and transferable capabilities.
+
+It MAY recommend investigation of a pivot. It MUST NOT silently pivot strategy.
+
+## 21. Website and attribution
+
+The website SHOULD become part of the commercial system, supporting source/attribution, content interaction, calls to action, conversions, and return visits under explicit privacy rules.
+
+Attribution SHOULD support multiple touches. The final interaction MUST NOT automatically be treated as causal.
+
+## 22. Privacy, security, and audit
+
+The system MUST collect only legitimate, relevant information.
+
+Credentials MUST NOT be stored in source-controlled domain data.
+
+Capabilities SHOULD use least privilege.
+
+Important actions MUST retain actor, previous/resulting state, requested transition, evidence, policy, timestamp, and external effect.
+
+More consequential and less reversible actions SHOULD require stronger evidence and/or approval.
+
+## 23. UX
+
+The application SHOULD make it easy to answer:
+- What markets are we testing?
+- What do we currently believe?
+- Why do we believe it?
+- What contradicts it?
+- What evidence is new?
+- Which accounts are interesting and why?
+- Which opportunities are active?
+- What is blocking them?
+- What experiments are running?
+- What worked or failed?
+- What should we investigate next?
+- What requires approval?
+- Where should human time be spent?
+
+## 24. Anti-requirements
+
+The system is NOT:
+- a Salesforce clone;
+- a generic CRM;
+- a mass-email spam engine;
+- an AI content mill;
+- a social scheduler without strategy;
+- an opaque lead-scoring engine;
+- disconnected autonomous agents;
+- a vector database presented as knowledge;
+- a vanity-metric dashboard;
+- an autonomous public representative without controls.
+
+## 25. Initial vertical slice
+
+The first complete vertical slice SHOULD be:
+
+MarketHypothesis -> ProblemHypothesis -> Organization discovery -> Observation/Evidence -> Lead -> Qualification -> Opportunity -> Outcome -> Learning.
+
+It MUST exercise ROS, SDE, Limen, F#, states, transitions, evidence, obligations, policies, capabilities, audit, and agent boundaries before broad automation is added.
