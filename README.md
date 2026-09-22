@@ -35,3 +35,15 @@ The browser application will use Limen. GitHub is the initial durable backing st
 - `requirements/IMPLEMENTATION-PLAN.md` - recommended build order and parallel workstreams
 
 The older `kemiller2002/sales-and-marketing` repository is treated as predecessor research. Relevant concepts have been carried forward here rather than making the new system depend on the old repository.
+
+
+## Domain engineering
+
+The requirements have been expanded into explicit state-directed design and scenario pressure tests:
+
+- `requirements/DOMAIN-STATE-MODEL.md` - aggregate states, legal transitions, invariants, capabilities, obligations, and cross-aggregate rules
+- `requirements/SCENARIOS-AND-EXPANSION.md` - 50 operational/commercial scenarios used to discover missing capabilities
+- `requirements/EFFICIENCY-AND-SCALE.md` - projections, progressive enrichment, deduplication, cost controls, human-attention optimization, simulation, replay, and graceful degradation
+- `requirements/DOMAIN-VERIFICATION.md` - executable test expectations and architecture checks
+
+The scenario catalog is intended to continue growing. A scenario that exposes an unsafe, inefficient, ambiguous, or unrepresentable condition is treated as requirements evidence.
