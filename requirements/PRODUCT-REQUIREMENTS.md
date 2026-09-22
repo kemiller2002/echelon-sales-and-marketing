@@ -358,3 +358,32 @@ Accessibility is a system requirement rather than a late UI audit.
 The application MUST support keyboard operation, semantic structure, visible focus, appropriate target sizing, zoom/reflow, reduced motion, non-color-only communication, accessible validation/errors, assistive-technology semantics, and contrast/readability requirements defined by Visual Engineering.
 
 Accessibility-critical workflows MUST be included in acceptance testing.
+
+
+## 32. Requirements discovered through scenario analysis
+
+The following additional concepts are required or strongly indicated by scenario analysis and MUST be treated as part of the design backlog:
+
+- ResearchBudget and bounded research execution;
+- ResearchQueue and progressive enrichment;
+- TriageDecision;
+- canonical identity and ExternalIdentity aliases;
+- reversible MergeDecision;
+- time-bounded PersonRole / OrganizationAffiliation;
+- CommunicationEligibility independent of Contact state;
+- evidence dependency/lineage graph and cycle detection;
+- WorkClaim/lease for parallel agents;
+- content-hash/version-scoped approvals;
+- deferred/future obligations with eligibility recheck;
+- provider capability registry and integration-health projection;
+- rate-budget/backpressure for provider APIs;
+- data classification and redaction/removal workflow;
+- storage abstraction, archive/export, and migration path beyond GitHub;
+- OfferingHypothesis and OfferingFit;
+- operational/business capacity signals capable of pacing campaigns;
+- jurisdiction-aware channel/outreach policy;
+- recommendation-change provenance;
+- retrospective classification of decision failures;
+- simulation/dry-run and replay that cannot repeat external effects.
+
+These concepts SHOULD be promoted to first-class aggregates/value objects only when doing so improves invariant enforcement or independent lifecycle management. The implementation MUST avoid entity proliferation for data that can safely remain a value object.
